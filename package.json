@@ -1,5 +1,5 @@
 {
-  "name": "react boilerplate",
+  "name": "typing",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,12 +11,13 @@
     "react-scripts": "1.1.1",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
+    "semantic-ui-css": "^2.3.0",
+    "semantic-ui-react": "^0.78.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "devDependencies": {}
+  }
 }
