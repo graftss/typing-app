@@ -1,3 +1,15 @@
 #TypingTest-container {
   max-width: 50%!important;
 }
+
+.before-goal {
+  color: lightgrey;
+}
+
+.goal {
+  background-color: lightgreen;
+}
+
+.after-goal {
+
+}

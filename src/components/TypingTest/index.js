@@ -8,7 +8,7 @@ import Prompt from './Prompt';
 
 const connections = {
   actions: ['testSetPassage'],
-  selectors: ['prompt'],
+  selectors: ['goalIndex', 'prompt'],
 };
 
 class TypingTest extends Component {
@@ -17,11 +17,11 @@ class TypingTest extends Component {
   }
 
   render() {
-    const { prompt } = this.props;
+    const { goalIndex, prompt } = this.props;
 
     return (
       <Container id="TypingTest-container">
-        <Prompt prompt={prompt} />
+        <Prompt goalIndex={goalIndex} prompt={prompt} />
         <Input />
       </Container>
     )
