@@ -14,14 +14,6 @@ export const testSetGoals = argCreator(TYPES.TEST_SET_GOALS, ['goals']);
 
 export const testSetPrompts = argCreator(TYPES.TEST_SET_PROMPTS, ['prompts']);
 
-export const testSetPassage = passage => dispatch => {
-  const words = passage.split(' ');
-  const goals = words.map((w, i) => i === words.length - 1 ? w : (w + ' '));
-
-  dispatch(testSetPrompts([passage]));
-  dispatch(testSetGoals(goals));
-};
-
 export const testStart = () => ({
   type: TYPES.TEST_START,
   time: getTime(),

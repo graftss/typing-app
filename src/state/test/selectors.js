@@ -16,4 +16,6 @@ export const onLastGoal = state => goalIndex(state) === goals(state).length - 1;
 
 export const currentPrompt = state => prompts(state)[promptIndex(state)];
 
+export const nextPrompt = state => prompts(state)[promptIndex(state) + 1];
+
 export const onLastPrompt = state => promptIndex(state) === prompts(state).length - 1;

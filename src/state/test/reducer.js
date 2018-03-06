@@ -13,6 +13,17 @@ const initialState = {
   endTime: 0,
 };
 
+const wordGoals = prompt => {
+  const words = prompt.split(' ');
+  return words.map((w, i) => i === words.length - 1 ? w : w + ' ');
+};
+
+const newPromptState = (prompts, promptIndex) => ({
+  goals: wordGoals(prompts[promptIndex + 1]),
+  goalIndex: 0,
+  promptIndex: promptIndex + 1,
+})
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case TYPES.TEST_INPUT_CHANGE: {
@@ -26,8 +37,7 @@ export default (state = initialState, action) => {
             return {
               ...state,
               input: '',
-              goalIndex: 0,
-              promptIndex: state.promptIndex + 1
+              ...newPromptState(state.prompts, state.promptIndex),
             };
           }
         } else {
@@ -51,7 +61,13 @@ export default (state = initialState, action) => {
     case TYPES.TEST_SET_PROMPTS: {
       const { prompts } = action.payload;
 
-      return { ...state, prompts, promptIndex: 0 };
+      console.log('hi', newPromptState(prompts, -1));
+
+      return {
+        ...state,
+        prompts,
+        ...newPromptState(prompts, -1),
+      };
     }
 
     case TYPES.TEST_START: {
