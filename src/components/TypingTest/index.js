@@ -7,8 +7,17 @@ import Input from './Input';
 import Prompt from './Prompt';
 
 const connections = {
-  actions: ['testSetPassage'],
-  selectors: ['currentPrompt', 'goalIndex', 'prompts', 'promptIndex'],
+  actions: [
+    'testInputChange',
+    'testSetPassage',
+  ],
+  selectors: [
+    'currentPrompt',
+    'goalIndex',
+    'prompts',
+    'promptIndex',
+    'testInput',
+  ],
 };
 
 class TypingTest extends Component {
@@ -16,13 +25,24 @@ class TypingTest extends Component {
     this.props.testSetPassage('haha made you look dummy');
   }
 
+  onChange = (e) => {
+    const { testInput, testInputChange } = this.props;
+    const nextInput = e.target.value;
+
+    // stop a single input from adding more than one character,
+    // e.g. by pasting
+    if (nextInput.length <= testInput.length + 1) {
+      testInputChange(e.target.value);
+    }
+  }
+
   render() {
-    const { goalIndex, currentPrompt } = this.props;
+    const { currentPrompt, goalIndex, testInput } = this.props;
 
     return (
       <Container id="TypingTest-container">
         <Prompt goalIndex={goalIndex} prompt={currentPrompt} />
-        <Input />
+        <Input onChange={this.onChange} value={testInput} />
       </Container>
     )
   }
