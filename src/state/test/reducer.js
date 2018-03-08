@@ -8,7 +8,7 @@ const initialState = {
   promptIndex: 0,
   input: '',
   running: false,
-  complete: true,
+  complete: false,
   startTime: 0,
   endTime: 0,
 };
@@ -24,7 +24,7 @@ const newPromptState = (prompts, promptIndex) => ({
   promptIndex: promptIndex + 1,
 })
 
-export default (state = initialState, action) => {
+export default getTime => (state = initialState, action) => {
   switch (action.type) {
     case TYPES.TEST_INPUT_CHANGE: {
       const { input } = action.payload;
@@ -32,7 +32,13 @@ export default (state = initialState, action) => {
       if (input === selectors.currentGoal(state)) {
         if (selectors.onLastGoal(state)) {
           if (selectors.onLastPrompt(state)) {
-            return initialState;
+            return {
+              ...state,
+              complete: true,
+              endTime: getTime(),
+              input: '',
+              promptIndex: state.promptIndex + 1,
+            };
           } else {
             return {
               ...state,
@@ -71,15 +77,7 @@ export default (state = initialState, action) => {
     }
 
     case TYPES.TEST_START: {
-      const { time } = action.payload;
-
-      return { ...state, startTime: time, running: true };
-    }
-
-    case TYPES.TEST_END: {
-      const { time } = action.payload;
-
-      return { ...state, endTime: time, running: false, complete: true };
+      return { ...state, startTime: getTime(), running: true };
     }
 
     default: return state;

@@ -10,6 +10,7 @@ const connections = {
   actions: [
     'testInputChange',
     'testSetPrompts',
+    'testStart',
   ],
   selectors: [
     'currentPrompt',
@@ -17,17 +18,22 @@ const connections = {
     'prompts',
     'promptIndex',
     'testInput',
+    'testRunning',
   ],
 };
 
 class TypingTest extends Component {
   componentWillMount() {
-    this.props.testSetPrompts(['haha made you look dummy', 'foofoo goofy']);
+    this.props.testSetPrompts(['foofoo goofy']);
   }
 
   onChange = (e) => {
-    const { testInput, testInputChange } = this.props;
+    const { testInput, testInputChange, testRunning, testStart } = this.props;
     const nextInput = e.target.value;
+
+    if (!testRunning) {
+      testStart();
+    }
 
     // stop a single input from adding more than one character,
     // e.g. by pasting
@@ -37,7 +43,11 @@ class TypingTest extends Component {
   }
 
   render() {
-    const { currentPrompt, goalIndex, testInput } = this.props;
+    const {
+      currentPrompt,
+      goalIndex,
+      testInput,
+    } = this.props;
 
     return (
       <Container id="TypingTest-container">

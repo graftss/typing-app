@@ -1,9 +1,10 @@
 import { routerReducer } from 'react-router-redux';
 import { combineReducers } from 'redux';
 
-import test from './test/reducer';
+import testReducer from './test/reducer';
+import { getTime } from '../utils';
 
 export default combineReducers({
   router: routerReducer,
-  test,
+  test: testReducer(getTime),
 });

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router';
 import './App.css';
 
 import Navbar from '../Navbar';
-import TypingTest from '../TypingTest';
+import TypingTestRoute from '../TypingTestRoute';
 
 class App extends Component {
   render() {
@@ -10,7 +11,7 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <div className="App-content">
-          <TypingTest />
+          <Route path="/test" component={TypingTestRoute} />
         </div>
       </div>
     );
