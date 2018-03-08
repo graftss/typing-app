@@ -9,7 +9,6 @@ import Prompt from './Prompt';
 const connections = {
   actions: [
     'testInputChange',
-    'testSetPrompts',
     'testStart',
   ],
   selectors: [
@@ -23,10 +22,6 @@ const connections = {
 };
 
 class TypingTest extends Component {
-  componentWillMount() {
-    this.props.testSetPrompts(['foofoo goofy']);
-  }
-
   onChange = (e) => {
     const { testInput, testInputChange, testRunning, testStart } = this.props;
     const nextInput = e.target.value;

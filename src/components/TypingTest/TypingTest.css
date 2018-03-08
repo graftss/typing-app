@@ -1,5 +1,6 @@
 #TypingTest-container {
   max-width: 50%!important;
+  font-size: 1em;
 }
 
 .before-goal {
@@ -12,4 +13,10 @@
 
 .after-goal {
 
+}
+
+.prompt {
+  text-align: justify;
+  font-size: 1.5em!important;
+  line-height: 100%;
 }

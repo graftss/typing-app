@@ -22,7 +22,7 @@ export default class Prompt extends Component {
 
   render() {
     return (
-      <Segment raised style={{ textAlign: 'justify' }}>
+      <Segment raised className="prompt">
         {this.formatPrompt()}
       </Segment>
     );
