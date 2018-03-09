@@ -9,6 +9,7 @@ import Prompt from './Prompt';
 const connections = {
   actions: [
     'testInputChange',
+    'testNewPrompt',
     'testStart',
   ],
   selectors: [
@@ -21,19 +22,24 @@ const connections = {
 };
 
 class TypingTest extends Component {
+  onKeyPress = (e) => {
+    const { testRunning, testNewPrompt, testStart } = this.props;
+
+    if (e.charCode === 13 && !testRunning) {
+      testNewPrompt(30);
+      testStart();
+    }
+  }
+
   onChange = (e) => {
     const {
       testComplete,
       testInput,
       testInputChange,
       testRunning,
-      testStart,
     } = this.props;
-    const nextInput = e.target.value;
 
-    if (!testRunning && !testComplete) {
-      testStart();
-    }
+    const nextInput = e.target.value;
 
     // stop a single input from adding more than one character,
     // e.g. by pasting
@@ -55,6 +61,7 @@ class TypingTest extends Component {
         <Prompt goalIndex={goalIndex} prompt={testPrompt} />
         <Input
           onChange={this.onChange}
+          onKeyPress={this.onKeyPress}
           placeholder={testRunning ? '' : 'Press enter to start.'}
           value={testInput}
         />

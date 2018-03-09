@@ -9,6 +9,8 @@ import {
   zipObj,
 } from 'ramda';
 
+export { sampleSize } from 'lodash';
+
 export const getTime = () => new Date().getTime();
 
 export const keyMirror = keys => zipObj(keys, keys);

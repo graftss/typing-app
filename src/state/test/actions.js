@@ -1,7 +1,5 @@
-
-
-import prompts from './prompts';
-import { argCreator, getTime, keyMirror } from '../../utils';
+import dict from './dict';
+import { argCreator, getTime, keyMirror, sampleSize } from '../../utils';
 
 export const TYPES = keyMirror([
   'TEST_END',
@@ -27,8 +25,10 @@ export const testEnd = () => ({
   time: getTime(),
 });
 
-export const testNewPrompt = () => (
+export const testNewPrompt = wordCount => (
   dispatch => {
-
+    const words = sampleSize(dict, wordCount);
+    const prompt = words.join(' ');
+    dispatch(testSetPrompt(prompt));
   }
 );

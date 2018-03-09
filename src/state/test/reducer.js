@@ -46,9 +46,11 @@ export default getTime => (state = initialState, action) => {
         }
 
         return mergeAll(updates);
-      } else {
+      } else if (state.running) {
         return { ...state, input };
       }
+
+      return state;
     }
 
     case TYPES.TEST_SET_GOALS: {
@@ -70,7 +72,7 @@ export default getTime => (state = initialState, action) => {
         startTime: getTime(),
         lastGoalTime: getTime(),
         running: true,
-        charactersTyped: 0,
+        charProgress: 0,
       };
     }
 
