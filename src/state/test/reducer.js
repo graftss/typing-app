@@ -10,6 +10,7 @@ const initialState = {
   running: false,
   complete: false,
   startTime: 0,
+  lastActionTime: 0,
   endTime: 0,
 };
 
@@ -36,8 +37,8 @@ export default getTime => (state = initialState, action) => {
               ...state,
               complete: true,
               endTime: getTime(),
+              goalIndex: state.goalIndex + 1,
               input: '',
-              promptIndex: state.promptIndex + 1,
             };
           } else {
             return {

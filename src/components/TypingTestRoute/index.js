@@ -11,15 +11,18 @@ const connections = {
 
 class TypingTestRoute extends Component {
   componentWillMount() {
-    this.props.testSetPrompts([`It's all the same. I have faith in him because I have faith in myself. And because I can believe in him, I can believe in myself. It's all the same as far as I'm concerned. That's what it means to be partners.`]);
+    this.props.testSetPrompts([`It's all the same.`]);
   }
 
   render() {
     const { testComplete } = this.props;
 
-    return testComplete ?
-      <TypingTestResults /> :
-      <TypingTest />;
+    return (
+      <div>
+        <TypingTestResults />
+        <TypingTest />
+      </div>
+    )
   }
 }
 
