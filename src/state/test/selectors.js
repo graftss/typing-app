@@ -21,6 +21,8 @@ export const testRunning = prop('running');
 
 export const testComplete = prop('complete');
 
+export const testWaitingToStart = prop('waitingToStart');
+
 export const charProgress = prop('charProgress');
 
 export const testRuntime = state => state.lastGoalTime - state.startTime;

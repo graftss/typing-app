@@ -9,11 +9,37 @@ const initialState = {
   prompt: '',
   input: '',
   running: false,
+  waitingToStart: false,
   complete: false,
   startTime: 0,
   lastGoalTime: 0,
   endTime: 0,
   charProgress: 0,
+  goalDurations: [],
+};
+
+const getLines = (lineChars, words) => {
+  const result = [];
+
+  let line = [words[0]];
+  let lineLength = words[0].length;
+
+  for (const word of words.slice(1)) {
+    const lengthWithWord = lineLength + 1 + word.length;
+
+    if (lengthWithWord <= lineChars) {
+      line.push(word);
+      lineLength = lengthWithWord;
+    } else {
+      result.push(line);
+      line = [word];
+      lineLength = word.length;
+    }
+  }
+
+  result.push(line);
+
+  return result;
 };
 
 const wordGoals = prompt => {
@@ -29,12 +55,17 @@ export default getTime => (state = initialState, action) => {
 
       if (input === currentGoal && state.running) {
         const lastGoalTime = getTime();
+        const goalDuration = {
+          goal: currentGoal,
+          duration: lastGoalTime - state.lastGoalTime,
+        };
 
         const updates = [state, {
           input: '',
           goalIndex: state.goalIndex + 1,
           lastGoalTime,
           charProgress: state.charProgress + currentGoal.length,
+          goalDurations: [...state.goalDurations, goalDuration],
         }];
 
         if (selectors.onLastGoal(state)) {
@@ -57,7 +88,13 @@ export default getTime => (state = initialState, action) => {
       const { prompt } = action.payload;
       const goals = wordGoals(prompt);
 
-      return { ...state, prompt, goals, goalIndex: 0 };
+      return {
+        ...state,
+        prompt,
+        goals,
+        goalIndex: 0,
+        waitingToStart: true,
+      };
     }
 
     case TYPES.TEST_ADD_PROMPT: {
@@ -80,6 +117,7 @@ export default getTime => (state = initialState, action) => {
         ...state,
         startTime: getTime(),
         lastGoalTime: getTime(),
+        waitingToStart: false,
         running: true,
         charProgress: 0,
       };

@@ -19,15 +19,22 @@ const connections = {
     'testComplete',
     'testPrompt',
     'testRunning',
+    'testWaitingToStart',
   ],
 };
 
 class TypingTest extends Component {
   onKeyPress = (e) => {
-    const { testRunning, testNewPrompt, testStart } = this.props;
+    const {
+      testRunning,
+      testNewPrompt,
+      testStart,
+      testWaitingToStart,
+    } = this.props;
 
     if (e.charCode === 13 && !testRunning) {
-      testNewPrompt(30);
+      testNewPrompt(5);
+    } else if (testWaitingToStart) {
       testStart();
     }
   }
