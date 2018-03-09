@@ -13,6 +13,7 @@ const connections = {
     'testStart',
   ],
   selectors: [
+    'currentGoal',
     'goalIndex',
     'testInput',
     'testComplete',
@@ -48,6 +49,16 @@ class TypingTest extends Component {
     }
   }
 
+  computeErrorIndex() {
+    const { testInput, currentGoal } = this.props;
+
+    for (let i = 0; i < testInput.length; i++) {
+      if (testInput[i] !== currentGoal[i]) {
+        return i;
+      }
+    }
+  }
+
   render() {
     const {
       testPrompt,
@@ -58,7 +69,11 @@ class TypingTest extends Component {
 
     return (
       <Container id="TypingTest-container">
-        <Prompt goalIndex={goalIndex} prompt={testPrompt} />
+        <Prompt
+          errorIndex={this.computeErrorIndex()}
+          goalIndex={goalIndex}
+          prompt={testPrompt}
+        />
         <Input
           onChange={this.onChange}
           onKeyPress={this.onKeyPress}
