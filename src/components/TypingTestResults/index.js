@@ -22,18 +22,19 @@ const TypingTestResults = ({
   testRuntime,
 }) => (
   <div className="test-results">
-    <Grid container columns={5}>
-      <Grid.Column />
+    <Grid container columns={3}>
       <Grid.Column>
-        {characters} chars
+        <span className="test-results-quantity">{characters} </span>
+        chars
       </Grid.Column>
       <Grid.Column>
-        {wpm || 0} wpm
+        <span className="test-results-quantity">{wpm || 0} </span>
+        wpm
       </Grid.Column>
       <Grid.Column>
-        {duration} seconds
+        <span className="test-results-quantity">{duration} </span>
+        seconds
       </Grid.Column>
-      <Grid.Column />
     </Grid>
   </div>
 );
