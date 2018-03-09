@@ -5,13 +5,13 @@ import TypingTestResults from '../TypingTestResults';
 import connect from '../../state/connect';
 
 const connections = {
-  actions: ['testSetPrompts'],
+  actions: ['testSetPrompt'],
   selectors: ['testComplete'],
 };
 
 class TypingTestRoute extends Component {
   componentWillMount() {
-    this.props.testSetPrompts([`It's all the same.`]);
+    this.props.testSetPrompt(`It's all the same.`);
   }
 
   render() {

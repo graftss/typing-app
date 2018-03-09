@@ -12,11 +12,9 @@ const connections = {
     'testStart',
   ],
   selectors: [
-    'currentPrompt',
     'goalIndex',
-    'prompts',
-    'promptIndex',
     'testInput',
+    'testPrompt',
     'testRunning',
   ],
 };
@@ -39,14 +37,14 @@ class TypingTest extends Component {
 
   render() {
     const {
-      currentPrompt,
+      testPrompt,
       goalIndex,
       testInput,
     } = this.props;
 
     return (
       <Container id="TypingTest-container">
-        <Prompt goalIndex={goalIndex} prompt={currentPrompt} />
+        <Prompt goalIndex={goalIndex} prompt={testPrompt} />
         <Input onChange={this.onChange} value={testInput} />
       </Container>
     )

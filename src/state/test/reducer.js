@@ -1,17 +1,19 @@
+import { mergeAll } from 'ramda';
+
 import { TYPES } from './actions';
 import * as selectors from './selectors';
 
 const initialState = {
   goals: [''],
   goalIndex: 0,
-  prompts: [''],
-  promptIndex: 0,
+  prompt: '',
   input: '',
   running: false,
   complete: false,
   startTime: 0,
-  lastActionTime: 0,
+  lastGoalTime: 0,
   endTime: 0,
+  charProgress: 0,
 };
 
 const wordGoals = prompt => {
@@ -19,41 +21,31 @@ const wordGoals = prompt => {
   return words.map((w, i) => i === words.length - 1 ? w : w + ' ');
 };
 
-const newPromptState = (prompts, promptIndex) => ({
-  goals: wordGoals(prompts[promptIndex + 1]),
-  goalIndex: 0,
-  promptIndex: promptIndex + 1,
-})
-
 export default getTime => (state = initialState, action) => {
   switch (action.type) {
     case TYPES.TEST_INPUT_CHANGE: {
       const { input } = action.payload;
+      const currentGoal = selectors.currentGoal(state);
 
-      if (input === selectors.currentGoal(state)) {
+      if (input === currentGoal) {
+        const lastGoalTime = getTime();
+
+        const updates = [state, {
+          input: '',
+          goalIndex: state.goalIndex + 1,
+          lastGoalTime,
+          charProgress: state.charProgress + currentGoal.length,
+        }];
+
         if (selectors.onLastGoal(state)) {
-          if (selectors.onLastPrompt(state)) {
-            return {
-              ...state,
-              complete: true,
-              endTime: getTime(),
-              goalIndex: state.goalIndex + 1,
-              input: '',
-            };
-          } else {
-            return {
-              ...state,
-              input: '',
-              ...newPromptState(state.prompts, state.promptIndex),
-            };
-          }
-        } else {
-          return {
-            ...state,
-            input: '',
-            goalIndex: state.goalIndex + 1,
-          };
+          updates.push({
+            running: false,
+            complete: true,
+            endTime: lastGoalTime,
+          });
         }
+
+        return mergeAll(updates);
       } else {
         return { ...state, input };
       }
@@ -65,20 +57,21 @@ export default getTime => (state = initialState, action) => {
       return { ...state, goals, goalIndex: 0 };
     }
 
-    case TYPES.TEST_SET_PROMPTS: {
-      const { prompts } = action.payload;
+    case TYPES.TEST_SET_PROMPT: {
+      const { prompt } = action.payload;
+      const goals = wordGoals(prompt);
 
-      console.log('hi', newPromptState(prompts, -1));
-
-      return {
-        ...state,
-        prompts,
-        ...newPromptState(prompts, -1),
-      };
+      return { ...state, prompt, goals, goalIndex: 0 };
     }
 
     case TYPES.TEST_START: {
-      return { ...state, startTime: getTime(), running: true };
+      return {
+        ...state,
+        startTime: getTime(),
+        lastGoalTime: getTime(),
+        running: true,
+        charactersTyped: 0,
+      };
     }
 
     default: return state;

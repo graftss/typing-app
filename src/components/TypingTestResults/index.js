@@ -4,7 +4,11 @@ import { Container, Segment } from 'semantic-ui-react';
 import connect from '../../state/connect';
 
 const connections = {
-  selectors: ['testComplete', 'testResults'],
+  selectors: [
+    'testComplete',
+    'testResults',
+    'testRuntime',
+  ],
 };
 
 const TypingTestResults = ({
@@ -14,6 +18,7 @@ const TypingTestResults = ({
     duration,
     wpm,
   },
+  testRuntime,
 }) => (
   <Container >
     <Segment>
