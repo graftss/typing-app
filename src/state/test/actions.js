@@ -1,8 +1,14 @@
 import dict from './dict';
-import { argCreator, getTime, keyMirror, sampleSize } from '../../utils';
+import {
+  argCreator,
+  constantCreator,
+  getTime,
+  keyMirror,
+  sampleSize,
+} from '../../utils';
 
 export const TYPES = keyMirror([
-  'TEST_END',
+  'TEST_ADD_PROMPT',
   'TEST_INPUT_CHANGE',
   'TEST_SET_GOALS',
   'TEST_SET_PROMPT',
@@ -11,19 +17,9 @@ export const TYPES = keyMirror([
 
 export const testInputChange = argCreator(TYPES.TEST_INPUT_CHANGE, ['input']);
 
-export const testSetGoals = argCreator(TYPES.TEST_SET_GOALS, ['goals']);
-
 export const testSetPrompt = argCreator(TYPES.TEST_SET_PROMPT, ['prompt']);
 
-export const testStart = () => ({
-  type: TYPES.TEST_START,
-  time: getTime(),
-});
-
-export const testEnd = () => ({
-  type: TYPES.TEST_END,
-  time: getTime(),
-});
+export const testStart = constantCreator(TYPES.TEST_START);
 
 export const testNewPrompt = wordCount => (
   dispatch => {
@@ -32,3 +28,5 @@ export const testNewPrompt = wordCount => (
     dispatch(testSetPrompt(prompt));
   }
 );
+
+export const testAddPrompt = argCreator(TYPES.TEST_ADD_PROMPT, ['prompt']);

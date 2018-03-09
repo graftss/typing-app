@@ -1,4 +1,4 @@
-import { mergeAll } from 'ramda';
+import { init, last, mergeAll } from 'ramda';
 
 import { TYPES } from './actions';
 import * as selectors from './selectors';
@@ -53,17 +53,26 @@ export default getTime => (state = initialState, action) => {
       return state;
     }
 
-    case TYPES.TEST_SET_GOALS: {
-      const { goals } = action.payload;
-
-      return { ...state, goals, goalIndex: 0 };
-    }
-
     case TYPES.TEST_SET_PROMPT: {
       const { prompt } = action.payload;
       const goals = wordGoals(prompt);
 
       return { ...state, prompt, goals, goalIndex: 0 };
+    }
+
+    case TYPES.TEST_ADD_PROMPT: {
+      const { prompt } = action.payload;
+
+      const newGoals = wordGoals(prompt);
+      // add a space to the last element of the old goals
+      const oldGoals = init(state.goals).concat(last(state.goals) + ' ');
+      const goals = oldGoals.concat(newGoals);
+
+      return {
+        ...state,
+        prompt: state.prompt + ' ' + prompt,
+        goals,
+      };
     }
 
     case TYPES.TEST_START: {
