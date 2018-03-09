@@ -1,3 +1,6 @@
+
+
+import prompts from './prompts';
 import { argCreator, getTime, keyMirror } from '../../utils';
 
 export const TYPES = keyMirror([
@@ -23,3 +26,9 @@ export const testEnd = () => ({
   type: TYPES.TEST_END,
   time: getTime(),
 });
+
+export const testNewPrompt = () => (
+  dispatch => {
+
+  }
+);

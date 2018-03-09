@@ -14,6 +14,7 @@ const connections = {
   selectors: [
     'goalIndex',
     'testInput',
+    'testComplete',
     'testPrompt',
     'testRunning',
   ],
@@ -21,10 +22,16 @@ const connections = {
 
 class TypingTest extends Component {
   onChange = (e) => {
-    const { testInput, testInputChange, testRunning, testStart } = this.props;
+    const {
+      testComplete,
+      testInput,
+      testInputChange,
+      testRunning,
+      testStart,
+    } = this.props;
     const nextInput = e.target.value;
 
-    if (!testRunning) {
+    if (!testRunning && !testComplete) {
       testStart();
     }
 
@@ -40,12 +47,17 @@ class TypingTest extends Component {
       testPrompt,
       goalIndex,
       testInput,
+      testRunning,
     } = this.props;
 
     return (
       <Container id="TypingTest-container">
         <Prompt goalIndex={goalIndex} prompt={testPrompt} />
-        <Input onChange={this.onChange} value={testInput} />
+        <Input
+          onChange={this.onChange}
+          placeholder={testRunning ? '' : 'Press enter to start.'}
+          value={testInput}
+        />
       </Container>
     )
   }

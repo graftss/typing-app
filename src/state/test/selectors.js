@@ -25,8 +25,6 @@ export const charProgress = prop('charProgress');
 
 export const testRuntime = state => state.lastGoalTime - state.startTime;
 
-const testDuration = state => state.endTime - state.startTime;
-
 const round = roundToPlaces(2);
 
 export const testResults = state => {

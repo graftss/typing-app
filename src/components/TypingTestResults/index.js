@@ -1,6 +1,7 @@
 import React from 'react';
-import { Container, Segment } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 
+import './TypingTestResults.css';
 import connect from '../../state/connect';
 
 const connections = {
@@ -20,13 +21,18 @@ const TypingTestResults = ({
   },
   testRuntime,
 }) => (
-  <Container >
-    <Segment>
-      <div>
-        You typed {characters} characters in {duration} seconds, at a speed of {wpm} wpm.
-      </div>
-    </Segment>
-  </Container>
+  <div className="test-results">
+    <Grid container columns={4}>
+      <Grid.Column />
+      <Grid.Column>
+        {characters} chars
+      </Grid.Column>
+      <Grid.Column>
+        {wpm || 0} wpm
+      </Grid.Column>
+      <Grid.Column />
+    </Grid>
+  </div>
 );
 
 export default connect(connections)(TypingTestResults);

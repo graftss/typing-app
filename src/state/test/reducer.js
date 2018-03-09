@@ -27,7 +27,7 @@ export default getTime => (state = initialState, action) => {
       const { input } = action.payload;
       const currentGoal = selectors.currentGoal(state);
 
-      if (input === currentGoal) {
+      if (input === currentGoal && state.running) {
         const lastGoalTime = getTime();
 
         const updates = [state, {
