@@ -24,6 +24,10 @@ const connections = {
 };
 
 class TypingTest extends Component {
+  componentDidMount() {
+    this.inputRef.focus();
+  }
+
   onKeyPress = (e) => {
     const {
       testRunning,
@@ -33,7 +37,7 @@ class TypingTest extends Component {
     } = this.props;
 
     if (e.charCode === 13 && !testRunning) {
-      testNewPrompt(5);
+      testNewPrompt({ wordCount: 50 });
     } else if (testWaitingToStart) {
       testStart();
     }
@@ -52,9 +56,11 @@ class TypingTest extends Component {
     // stop a single input from adding more than one character,
     // e.g. by pasting
     if (nextInput.length <= testInput.length + 1) {
-      testInputChange(e.target.value);
+      testInputChange(nextInput);
     }
   }
+
+  handleInputRef = input => this.inputRef = input;
 
   computeErrorIndex() {
     const { testInput, currentGoal } = this.props;
@@ -82,6 +88,7 @@ class TypingTest extends Component {
           prompt={testPrompt}
         />
         <Input
+          handleRef={this.handleInputRef}
           onChange={this.onChange}
           onKeyPress={this.onKeyPress}
           placeholder={testRunning ? '' : 'Press enter to start.'}

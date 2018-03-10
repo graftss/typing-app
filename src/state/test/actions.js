@@ -21,7 +21,7 @@ export const testSetPrompt = argCreator(TYPES.TEST_SET_PROMPT, ['prompt']);
 
 export const testStart = constantCreator(TYPES.TEST_START);
 
-export const testNewPrompt = wordCount => (
+export const testNewPrompt = ({ wordCount }) => (
   dispatch => {
     const words = sampleSize(dict, wordCount);
     const prompt = words.join(' ');
