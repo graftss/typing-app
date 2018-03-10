@@ -47,7 +47,7 @@ export default class Prompt extends Component {
   }
 
   formatPrompt() {
-    const { completedGoalColor, goalIndex, prompt } = this.props;
+    const { goalIndex, prompt } = this.props;
 
     const words = prompt.split(' ');
 

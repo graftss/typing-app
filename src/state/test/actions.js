@@ -2,7 +2,6 @@ import dict from './dict';
 import {
   argCreator,
   constantCreator,
-  getTime,
   keyMirror,
   sampleSize,
 } from '../../utils';

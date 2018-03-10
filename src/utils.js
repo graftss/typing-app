@@ -50,3 +50,27 @@ export const roundToPlaces = places => {
 };
 
 export const concatAll = reduce(concat, []);
+
+export const getLines = (lineChars, words) => {
+  const result = [];
+
+  let line = [words[0]];
+  let lineLength = words[0].length;
+
+  for (const word of words.slice(1)) {
+    const lengthWithWord = lineLength + 1 + word.length;
+
+    if (lengthWithWord <= lineChars) {
+      line.push(word);
+      lineLength = lengthWithWord;
+    } else {
+      result.push(line);
+      line = [word];
+      lineLength = word.length;
+    }
+  }
+
+  result.push(line);
+
+  return result;
+};

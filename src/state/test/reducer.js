@@ -1,4 +1,4 @@
-import { init, last, mergeAll } from 'ramda';
+import { mergeAll } from 'ramda';
 
 import { TYPES } from './actions';
 import * as selectors from './selectors';
@@ -16,30 +16,6 @@ const initialState = {
   endTime: 0,
   charProgress: 0,
   goalDurations: [],
-};
-
-const getLines = (lineChars, words) => {
-  const result = [];
-
-  let line = [words[0]];
-  let lineLength = words[0].length;
-
-  for (const word of words.slice(1)) {
-    const lengthWithWord = lineLength + 1 + word.length;
-
-    if (lengthWithWord <= lineChars) {
-      line.push(word);
-      lineLength = lengthWithWord;
-    } else {
-      result.push(line);
-      line = [word];
-      lineLength = word.length;
-    }
-  }
-
-  result.push(line);
-
-  return result;
 };
 
 const wordGoals = prompt => {
