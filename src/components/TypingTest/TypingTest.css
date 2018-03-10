@@ -5,7 +5,7 @@
 }
 
 .before-goal {
-  color: lightgrey;
+
 }
 
 .goal {
@@ -24,4 +24,24 @@
   text-align: justify;
   font-size: 1.5em!important;
   line-height: 100%;
+}
+
+.goal-slow {
+  color: red;
+  filter: brightness(30%);
+}
+
+.goal-fast {
+  color: green;
+  filter: brightness(50%);
+}
+
+.goal-slow.goal-really-slow {
+  filter: brightness(100%);
+  font-weight: bolder;
+}
+
+.goal-fast.goal-really-fast {
+  filter: brightness(100%);
+  font-weight: bolder;
 }

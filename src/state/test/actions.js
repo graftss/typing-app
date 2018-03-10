@@ -8,7 +8,6 @@ import {
 } from '../../utils';
 
 export const TYPES = keyMirror([
-  'TEST_ADD_PROMPT',
   'TEST_INPUT_CHANGE',
   'TEST_SET_GOALS',
   'TEST_SET_PROMPT',
@@ -21,10 +20,12 @@ export const testSetPrompt = argCreator(TYPES.TEST_SET_PROMPT, ['prompt']);
 
 export const testStart = constantCreator(TYPES.TEST_START);
 
-export const testNewPrompt = ({ wordCount }) => (
+export const testNewPrompt = ({ wordCount, filter }) => (
   dispatch => {
-    const words = sampleSize(dict, wordCount);
+    const wordBank = filter ? dict.filter(w => filter.test(w)) : dict;
+    const words = sampleSize(wordBank, wordCount);
     const prompt = words.join(' ');
+
     dispatch(testSetPrompt(prompt));
   }
 );

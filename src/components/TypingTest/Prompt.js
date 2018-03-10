@@ -27,21 +27,36 @@ export default class Prompt extends Component {
     } else {
       return <span className="goal">{goal}</span>
     }
+  }
 
+  formatBeforeGoal(words) {
+    const { completedGoalColor } = this.props;
+
+    return (
+      <span>
+        {words.map((word, index) => (
+          <span
+            key={index}
+            style={{color: completedGoalColor(index)}}
+          >
+            {`${word} `}
+          </span>
+        ))}
+      </span>
+    )
   }
 
   formatPrompt() {
-    const { goalIndex, prompt } = this.props;
+    const { completedGoalColor, goalIndex, prompt } = this.props;
 
     const words = prompt.split(' ');
 
-    const beforeGoal = words.slice(0, goalIndex).join(' ');
     const goal = words[goalIndex] || '';
     const afterGoal = words.slice(goalIndex + 1).join(' ');
 
     return (
       <span>
-        <span className="before-goal"> {beforeGoal} </span>
+        {this.formatBeforeGoal(words.slice(0, goalIndex))}
         {this.formatGoal(goal)}
         <span className="after-goal"> {afterGoal} </span>
       </span>

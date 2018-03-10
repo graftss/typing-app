@@ -77,11 +77,9 @@ export default getTime => (state = initialState, action) => {
         }
 
         return mergeAll(updates);
-      } else if (state.running) {
+      } else {
         return { ...state, input };
       }
-
-      return state;
     }
 
     case TYPES.TEST_SET_PROMPT: {
@@ -94,21 +92,9 @@ export default getTime => (state = initialState, action) => {
         goals,
         goalIndex: 0,
         waitingToStart: true,
-      };
-    }
+        input: '',
+        goalDurations: [],
 
-    case TYPES.TEST_ADD_PROMPT: {
-      const { prompt } = action.payload;
-
-      const newGoals = wordGoals(prompt);
-      // add a space to the last element of the old goals
-      const oldGoals = init(state.goals).concat(last(state.goals) + ' ');
-      const goals = oldGoals.concat(newGoals);
-
-      return {
-        ...state,
-        prompt: state.prompt + ' ' + prompt,
-        goals,
       };
     }
 
