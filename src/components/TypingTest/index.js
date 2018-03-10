@@ -15,6 +15,7 @@ const mix = (x, low, high) => {
 
 const connections = {
   actions: [
+    'addSlowWordsFromTest',
     'testInputChange',
     'testNewPrompt',
     'testStart',
@@ -37,6 +38,17 @@ class TypingTest extends Component {
     this.inputRef.focus();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.testComplete && !prevProps.testComplete) {
+      this.onTestComplete();
+    }
+  }
+
+  onTestComplete() {
+    console.log("we completed the test");
+    console.log(this.props.addSlowWordsFromTest());
+  }
+
   onKeyPress = (e) => {
     const {
       testNewPrompt,
@@ -46,7 +58,7 @@ class TypingTest extends Component {
     } = this.props;
 
     if (e.charCode === 13 && !testRunning) {
-      testNewPrompt({ wordCount: 30 });
+      testNewPrompt({ wordCount: 3 });
     } else if (testWaitingToStart) {
       testStart();
     }

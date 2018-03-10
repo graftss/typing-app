@@ -9,6 +9,19 @@ export const goals = prop('goals');
 
 export const goalIndex = prop('goalIndex');
 
+export const completedGoals = createSelector(
+  goals,
+  goalIndex,
+  (words, idx) => words.slice(0, idx),
+);
+
+const extractWordFromGoal = goal => goal.match(/(\w+)/)[0];
+
+export const completedWords = createSelector(
+  completedGoals,
+  goals => goals.map(extractWordFromGoal),
+);
+
 export const currentGoal = state => goals(state)[goalIndex(state)] || '';
 
 export const onLastGoal = state => goalIndex(state) === goals(state).length - 1;
@@ -41,6 +54,13 @@ export const goalWpm = curry((state, goalIndex) => {
 
   return wpm(goalChars, goalDuration);
 });
+
+export const testSlowWords = state => {
+  const words = completedWords(state);
+  const avgWpm = testWpm(state);
+
+  return words.filter((_, index) => goalWpm(state, index) < .7 * avgWpm)
+};
 
 export const testResults = createSelector(
   charProgress,

@@ -49,6 +49,7 @@ export default getTime => (state = initialState, action) => {
             running: false,
             complete: true,
             endTime: lastGoalTime,
+            goalIndex: state.goalIndex + 1,
           });
         }
 
@@ -81,6 +82,7 @@ export default getTime => (state = initialState, action) => {
         lastGoalTime: getTime(),
         waitingToStart: false,
         running: true,
+        complete: false,
         charProgress: 0,
       };
     }
