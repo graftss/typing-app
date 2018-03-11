@@ -1,5 +1,6 @@
 import { routerMiddleware } from 'react-router-redux';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
+import persistState from 'redux-localstorage';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
@@ -11,12 +12,17 @@ export default ({ history }) => {
     predicate: (getState, action) => action.type !== TYPES.TEST_INPUT_CHANGE,
   });
 
+  const middleware = applyMiddleware(
+    thunk,
+    routerMiddleware(history),
+    logger,
+  );
+
   return createStore(
     reducer,
-    applyMiddleware(
-      thunk,
-      routerMiddleware(history),
-      logger,
-    )
+    compose(
+      middleware,
+      persistState(['history']),
+    ),
   );
 };
