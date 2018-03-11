@@ -45,8 +45,7 @@ class TypingTest extends Component {
   }
 
   onTestComplete() {
-    console.log("we completed the test");
-    console.log(this.props.addSlowWordsFromTest());
+    this.props.addSlowWordsFromTest();
   }
 
   onKeyPress = (e) => {
