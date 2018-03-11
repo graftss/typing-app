@@ -36,7 +36,7 @@ export const testWaitingToStart = prop('waitingToStart');
 
 export const charProgress = prop('charProgress');
 
-export const goalDurations = prop('goalDurations');
+export const goalData = prop('goalData');
 
 export const testRuntime = state => state.lastGoalTime - state.startTime;
 
@@ -50,9 +50,9 @@ export const testWpm = createSelector(charProgress, testRuntime, wpm);
 
 export const goalWpm = curry((state, goalIndex) => {
   const goalChars = goals(state)[goalIndex].length;
-  const goalDuration = goalDurations(state)[goalIndex].duration;
+  const data = goalData(state)[goalIndex].duration;
 
-  return wpm(goalChars, goalDuration);
+  return wpm(goalChars, data);
 });
 
 export const testSlowWords = state => {

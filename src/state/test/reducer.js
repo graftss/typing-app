@@ -2,6 +2,11 @@ import { mergeAll } from 'ramda';
 
 import { TYPES } from './actions';
 import * as selectors from './selectors';
+import { lastEqualIndex } from '../../utils';
+
+const newGoalData = () => ({
+  charTimestamps: [],
+});
 
 const initialState = {
   goals: [''],
@@ -15,7 +20,8 @@ const initialState = {
   lastGoalTime: 0,
   endTime: 0,
   charProgress: 0,
-  goalDurations: [],
+  currentGoalData: newGoalData(),
+  goalData: [],
 };
 
 const wordGoals = prompt => {
@@ -28,34 +34,52 @@ export default getTime => (state = initialState, action) => {
     case TYPES.TEST_INPUT_CHANGE: {
       const { input } = action.payload;
       const currentGoal = selectors.currentGoal(state);
+      const currentTime = getTime();
 
       if (input === currentGoal && state.running) {
-        const lastGoalTime = getTime();
-        const goalDuration = {
+        const duration = currentTime - state.lastGoalTime;
+        const completedGoalData = {
+          ...state.currentGoalData,
+          charTimestamps: state.currentGoalData.charTimestamps.concat(duration),
+          duration,
           goal: currentGoal,
-          duration: lastGoalTime - state.lastGoalTime,
         };
 
         const updates = [state, {
-          input: '',
-          goalIndex: state.goalIndex + 1,
-          lastGoalTime,
           charProgress: state.charProgress + currentGoal.length,
-          goalDurations: [...state.goalDurations, goalDuration],
+          currentGoalData: newGoalData(),
+          goalData: [...state.goalData, completedGoalData],
+          goalIndex: state.goalIndex + 1,
+          input: '',
+          lastGoalTime: currentTime,
         }];
 
         if (selectors.onLastGoal(state)) {
           updates.push({
             running: false,
             complete: true,
-            endTime: lastGoalTime,
+            endTime: currentTime,
             goalIndex: state.goalIndex + 1,
           });
         }
 
         return mergeAll(updates);
       } else {
-        return { ...state, input };
+        const matchIndex = lastEqualIndex(input, currentGoal);
+        let charTimestamps = state.currentGoalData.charTimestamps;
+        const lastMatchIndex = charTimestamps.length - 1;
+
+        if (matchIndex === lastMatchIndex + 1) {
+          const timestamp = currentTime - state.lastGoalTime;
+          // if we added a correct letter, and we were correct before then
+          charTimestamps = charTimestamps.concat(timestamp);
+        } else if (matchIndex < lastMatchIndex) {
+          // otherwise, cut off at the last correct letter
+          charTimestamps = charTimestamps.slice(0, matchIndex + 1);
+        }
+
+        const currentGoalData = { charTimestamps };
+        return { ...state, input, currentGoalData };
       }
     }
 
@@ -70,20 +94,20 @@ export default getTime => (state = initialState, action) => {
         goalIndex: 0,
         waitingToStart: true,
         input: '',
-        goalDurations: [],
-
+        goalData: [],
       };
     }
 
     case TYPES.TEST_START: {
       return {
         ...state,
-        startTime: getTime(),
-        lastGoalTime: getTime(),
-        waitingToStart: false,
-        running: true,
-        complete: false,
         charProgress: 0,
+        complete: false,
+        currentGoalData: newGoalData(),
+        lastGoalTime: getTime(),
+        running: true,
+        startTime: getTime(),
+        waitingToStart: false,
       };
     }
 

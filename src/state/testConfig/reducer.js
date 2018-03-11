@@ -1,7 +1,7 @@
 import { TYPES } from './actions';
 
 const initialState = {
-  wordCount: 50,
+  wordCount: 3,
   filter: undefined,
 };
 

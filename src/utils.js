@@ -74,3 +74,14 @@ export const getLines = (lineChars, words) => {
 
   return result;
 };
+
+// Returns -1 if the first entries of `a` and `b` are unequal.
+export const lastEqualIndex = (a, b) => {
+  if (a.length > b.length) return lastEqualIndex(b, a);
+
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return i - 1;
+  }
+
+  return a.length - 1;
+};
