@@ -22,7 +22,7 @@ export default ({ history }) => {
     reducer,
     compose(
       middleware,
-      persistState(['history']),
+      persistState(['history', 'testConfig']),
     ),
   );
 };

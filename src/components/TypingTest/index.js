@@ -16,8 +16,9 @@ const mix = (x, low, high) => {
 const connections = {
   actions: [
     'addSlowWordsFromTest',
-    'testInputChange',
     'newPrompt',
+    'runCommand',
+    'testInputChange',
     'testStart',
   ],
   selectors: [
@@ -51,13 +52,15 @@ class TypingTest extends Component {
   onKeyPress = (e) => {
     const {
       newPrompt,
+      runCommand,
+      testInput,
       testRunning,
       testStart,
       testWaitingToStart,
     } = this.props;
 
     if (e.charCode === 13 && !testRunning) {
-      newPrompt();
+      runCommand(testInput);
     } else if (testWaitingToStart) {
       testStart();
     }
