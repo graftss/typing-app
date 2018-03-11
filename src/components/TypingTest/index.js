@@ -17,7 +17,7 @@ const connections = {
   actions: [
     'addSlowWordsFromTest',
     'testInputChange',
-    'testNewPrompt',
+    'newPrompt',
     'testStart',
   ],
   selectors: [
@@ -50,14 +50,14 @@ class TypingTest extends Component {
 
   onKeyPress = (e) => {
     const {
-      testNewPrompt,
+      newPrompt,
       testRunning,
       testStart,
       testWaitingToStart,
     } = this.props;
 
     if (e.charCode === 13 && !testRunning) {
-      testNewPrompt({ wordCount: 3 });
+      newPrompt();
     } else if (testWaitingToStart) {
       testStart();
     }
